@@ -8,6 +8,7 @@ export default function Board() {
   const [jugadorId, setJugadorId] = useState('');
   const [turnoActual, setTurnoActual] = useState(0);
   const [position, setPosition] = useState(0);
+  const [asignar, setAsignar] = useState("");
   const cartierRef = useRef(null);
   const rolexRef = useRef(null);
   const fortuna37Ref = useRef(null);
@@ -49,6 +50,7 @@ export default function Board() {
   const nikeRef = useRef(null);
   const hpRef = useRef(null);
 
+
   const actualizarTurno = () => {
     const idJuego = 0; // Reemplaza el valor 0 con el ID del juego que corresponda
     
@@ -88,6 +90,34 @@ export default function Board() {
         console.log(error);
       });
   };
+
+  const asignarTurnos = () => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/asignar_turnos/${turnoActual}`)
+      .then((response) => {
+        console.log(response.data);
+        const asignarData = response.data;
+  
+        const nombre = asignarData.nombre;
+        console.log(nombre);
+        const dinero = asignarData.dinero;
+        console.log(dinero);
+        
+        if (nombre) {
+          const message = `El jugador ${nombre} tiene ${dinero} de dinero disponible`;
+          setAsignar(message);
+          //alert(message);
+        } else {
+          console.log("No se encontró ningún mensaje en la respuesta");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  
+  
+  
   
   const casillasLibres = (posicionNueva) => {
     
@@ -425,12 +455,20 @@ export default function Board() {
         <div className={`dice-side side-${diceRoll}`}></div>
         <button onClick={actualizarTurno}>Actualizar Turno</button>
         <button onClick={tirarDado}>Tirar Dado</button>
-        
+        <button onClick={asignarTurnos}> Ver estado jugador</button>        
       </div>
       <div className="turno">
         Turno : {playerName}
         <br/>
         Resultado del dado: {diceRoll}
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        
+
+        Estado jugador: {asignar}
 
       </div>
     </div>

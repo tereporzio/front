@@ -25,11 +25,12 @@
     margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 3px;
+    color: black;
   }
   
   .Login form input[type="submit"] {
     background-color: #ddd;
-    color: white;
+    color: black;
     padding: 10px 20px;
     border: none;
     border-radius: 3px;
